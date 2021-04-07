@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using CommandLine;
 
 namespace patch1337tocpp {
@@ -49,11 +51,11 @@ namespace patch1337tocpp {
                 w.WriteLine("};");
                 w.Write("struct Patch { ");
                 w.Write("char* ModuleName; ");
-                w.Write("std::vector<PatchAddress> Patches ");
+                w.Write("std::vector<PatchAddress> Patches;");
                 w.WriteLine("};");
 
                 foreach (var patch in patches) {
-                    var addressableName = patch.ModuleName.Replace(" ", "_");
+                    var addressableName = Regex.Replace(patch.ModuleName, "([^A-Za-z0-9])+", "_");
                     w.WriteLine($"Patch {addressableName};");
                     w.WriteLine($"{addressableName}.ModuleName = \"{patch.ModuleName}\";");
                     w.WriteLine($"{addressableName}.Patches = {{");
