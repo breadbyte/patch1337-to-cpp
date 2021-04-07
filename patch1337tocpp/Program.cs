@@ -64,7 +64,7 @@ namespace patch1337tocpp {
                 foreach (var patch in patches) {
                     var addressableName = Regex.Replace(patch.ModuleName, "([^A-Za-z0-9])+", "_");
 
-                    w.WriteLine($"Patch {addressableName} = Patch {{ \"{patch.ModuleName}\", {{");
+                    w.WriteLine($"Patch {addressableName} = {{ \"{patch.ModuleName}\", {{");
 
                     foreach (var addr in patch.Patches) {
                         w.WriteLine($"PatchAddress{{ {addr.Address}, {addr.OldByte}, {addr.NewByte} }},");
@@ -74,12 +74,12 @@ namespace patch1337tocpp {
 
                     w.WriteLine($"void patch_{addressableName}() {{");
                     w.WriteLine($"for (PatchAddress addr : {addressableName}.Patches) {{");
-                    w.WriteLine("PatchUChar((unsigned char*)addr.Address, (unsigned char*)addr.NewByte, 1); }");
+                    w.WriteLine("PatchUChar((unsigned char*)addr.Address, &addr.NewByte, 1); }");
                     w.WriteLine("};");
                     
                     w.WriteLine($"void unpatch_{addressableName}() {{");
                     w.WriteLine($"for (PatchAddress addr : {addressableName}.Patches) {{");
-                    w.WriteLine("PatchUChar((unsigned char*)addr.Address,(unsigned char*)addr.OldByte, 1); }");
+                    w.WriteLine("PatchUChar((unsigned char*)addr.Address,&addr.OldByte, 1); }");
                     w.WriteLine("};");
                 }
                 
