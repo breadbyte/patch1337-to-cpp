@@ -46,13 +46,14 @@ namespace patch1337tocpp {
 
                 w.WriteLine("#include <vector>");
                 w.WriteLine("#include <windows.h>");
+                w.WriteLine("int BaseAddress = (int)GetModuleHandle(nullptr);");
                 w.Write("struct PatchAddress { ");
                 w.Write("int Address; ");
                 w.Write("unsigned char OldByte; ");
                 w.Write("unsigned char NewByte; ");
                 w.WriteLine("};");
                 w.Write("struct Patch { ");
-                w.Write("char* ModuleName; ");
+                w.Write("const char* ModuleName; ");
                 w.Write("std::vector<PatchAddress> Patches;");
                 w.WriteLine("};");
                 w.WriteLine("void PatchUChar(unsigned char* dst, unsigned char* src, int size) {");
@@ -74,12 +75,12 @@ namespace patch1337tocpp {
 
                     w.WriteLine($"void patch_{addressableName}() {{");
                     w.WriteLine($"for (PatchAddress addr : {addressableName}.Patches) {{");
-                    w.WriteLine("PatchUChar((unsigned char*)addr.Address, &addr.NewByte, 1); }");
+                    w.WriteLine("PatchUChar((unsigned char*)(BaseAddress + addr.Address), &addr.NewByte, 1); }");
                     w.WriteLine("};");
                     
                     w.WriteLine($"void unpatch_{addressableName}() {{");
                     w.WriteLine($"for (PatchAddress addr : {addressableName}.Patches) {{");
-                    w.WriteLine("PatchUChar((unsigned char*)addr.Address,&addr.OldByte, 1); }");
+                    w.WriteLine("PatchUChar((unsigned char*)(BaseAddress + addr.Address), &addr.OldByte, 1); }");
                     w.WriteLine("};");
                 }
                 
