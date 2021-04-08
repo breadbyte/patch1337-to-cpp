@@ -1,6 +1,8 @@
 # patch1337-to-cpp
 Converts a `.1337` file to a `.cpp` runtime patcher.
 
+Use case is for DLL Injection and automatic patching of the binary on runtime.
+
 Uses code from https://stackoverflow.com/a/48737037 to patch on runtime, thanks!
 
 Sample output:
