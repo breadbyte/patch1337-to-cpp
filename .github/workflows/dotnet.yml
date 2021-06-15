@@ -25,4 +25,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: artifact
-        path: /home/runner/work/patch1337-to-cpp/patch1337-to-cpp/patch1337tocpp/bin/Release/net5.0/
+        path: /home/runner/work/patch1337-to-cpp/patch1337-to-cpp/patch1337tocpp/bin/Release/net5.0/win10-x64/publish
