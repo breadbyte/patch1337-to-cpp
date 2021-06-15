@@ -19,8 +19,8 @@ jobs:
         dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+    - name: Create Binaries for win10
+      run: dotnet publish -c Release -r win10-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
