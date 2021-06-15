@@ -23,4 +23,6 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
-      
+      with:
+        name: artifact
+        path: /home/runner/work/patch1337-to-cpp/patch1337-to-cpp/patch1337tocpp/bin/Release/net5.0/
