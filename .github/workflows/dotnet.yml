@@ -1,0 +1,35 @@
+name: .NET
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Create Binary - win10
+      run: dotnet publish -c Release -r win10-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true
+    - name: Create Binary - linux
+      run: dotnet publish -c Release -r linux-x64 -p:PublishSingleFile=true -p:PublishTrimmed=true --self-contained true
+    - name: Upload Windows 10 Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: artifact-win
+        path: /home/runner/work/patch1337-to-cpp/patch1337-to-cpp/patch1337tocpp/bin/Release/net5.0/win10-x64/publish
+    - name: Upload Linux Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: artifact-linux
+        path: /home/runner/work/patch1337-to-cpp/patch1337-to-cpp/patch1337tocpp/bin/Release/net5.0/linux-x64/publish
